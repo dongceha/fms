@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        body {
+            background-image: url('https://lf1-cdn-tos.bytescm.com/obj/static/ies/bytedance_official/_next/static/images/cod-812b8e96a232cda309a0786e4f2356e3.jpeg');
+            background-repeat: repeat-x;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="./performance.js"></script>
+</head>
+
+<body>
+    <img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" />
+    <div id="app">
+        <ul>
+            <li v-for="(l, index) in li">
+                <span v-for="i in `${l}`.split('')">{{i}}</span>--{{Date.now()}}
+                <img v-if="index === 2" src="https://lf1-cdn-tos.bytescm.com/obj/static/ies/bytedance_official/_next/static/images/0-390b5def140dc370854c98b8e82ad394.png" alt="">
+            </li>
+        </ul>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                li: new Array(10).fill(1).map(l => Math.random())
+            },
+            beforeCreate() {
+                console.time('mounted');
+            },
+            mounted() {
+                console.timeEnd('mounted')
+                setTimeout(() => {
+                    console.time('addli');
+                    this.li = new Array(1000).fill(1).map(l => `${Math.random()}${Math.random()}`)
+                    // this.li = Object.freeze(new Array(1000).fill(1).map(l => `${Math.random()}${Math.random()}`))
+                    console.timeEnd('addli');
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
